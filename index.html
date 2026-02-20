@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Zishuo Wang - Georgia Tech CS Student | Full-stack Engineer & ML Practitioner | Seeking SDE Internship 2026">
+  <meta property="og:title" content="Zishuo Wang · Code Cultivator">
+  <meta property="og:description" content="Portfolio of Zishuo Wang - Georgia Tech CS '27 | Full-stack, Mobile, AI Projects">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yourusername.github.io">
+  <title>Zishuo Wang · Code Cultivator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --void: #04030a; --deep: #080614; --surface: #0d0b1a; --panel: #110e21;
+      --gold: #e8c84a; --gold2: #f5d96e; --crimson: #c0392b; --crimson2: #e74c3c;
+      --azure: #5dade2; --azure2: #85c1e9; --jade: #1abc9c;
+      --rune: rgba(232,200,74,0.055); --text: #f0e6c8; --muted: #8a7a5a;
+      --border: rgba(232,200,74,0.18);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+    }
+
+    body {
+      background: var(--void); color: var(--text);
+      font-family: 'EB Garamond', Georgia, serif;
+      overflow-x: hidden; cursor: default;
+    }
+
+    #stars-canvas {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    }
+
+    .rune-bg {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+    }
+    .rune {
+      position: absolute; color: var(--rune);
+      font-family: 'Cinzel Decorative', cursive;
+      animation: floatRune linear infinite;
+      user-select: none; filter: blur(0.8px);
+    }
+    @keyframes floatRune {
+      0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 0.5; }
+      100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+    }
+
+    body::after {
+      content: ''; position: fixed; inset: 0;
+      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.06) 2px, rgba(0,0,0,0.06) 4px);
+      pointer-events: none; z-index: 999;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      background: rgba(4,3,10,0.92); backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    nav::before {
+      content: ''; position: absolute; bottom: 0; left: 50%;
+      transform: translateX(-50%); width: 60%; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+    .nav-inner {
+      max-width: 960px; margin: 0 auto; padding: 0 24px;
+      height: 56px; display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: 'Cinzel Decorative', cursive; font-size: 13px;
+      color: var(--gold); text-shadow: 0 0 20px rgba(232,200,74,0.6);
+      letter-spacing: 0.05em;
+    }
+    .nav-links { display: flex; gap: 32px; }
+    .nav-links a {
+      font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 0.12em;
+      color: var(--muted); text-decoration: none; text-transform: uppercase;
+      transition: all 0.3s; position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -4px; left: 50%; right: 50%;
+      height: 1px; background: var(--gold); transition: all 0.3s;
+    }
+    .nav-links a:hover { color: var(--gold); text-shadow: 0 0 12px rgba(232,200,74,0.8); }
+    .nav-links a:hover::after { left: 0; right: 0; }
+    
+    .nav-toggle {
+      display: none; background: none; border: 1px solid var(--border);
+      color: var(--gold); font-size: 20px; padding: 6px 12px;
+      cursor: pointer; border-radius: 4px;
+    }
+    .nav-toggle:hover { border-color: var(--gold); background: rgba(232,200,74,0.05); }
+
+    .container {
+      max-width: 960px; margin: 0 auto; padding: 0 24px;
+      position: relative; z-index: 2;
+    }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh; display: flex; flex-direction: column;
+      justify-content: center; align-items: center; text-align: center;
+      padding: 100px 24px 60px; position: relative;
+    }
+
+    .hero-circle {
+      position: absolute; width: 520px; height: 520px; border-radius: 50%;
+      border: 1px solid rgba(232,200,74,0.07);
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      animation: rotateSlow 40s linear infinite;
+    }
+    .hero-circle::before {
+      content: ''; position: absolute; inset: 24px; border-radius: 50%;
+      border: 1px solid rgba(232,200,74,0.04);
+      animation: rotateSlow 22s linear infinite reverse;
+    }
+    .hero-circle::after {
+      content: ''; position: absolute; inset: 60px; border-radius: 50%;
+      border: 1px dashed rgba(232,200,74,0.06);
+    }
+    @keyframes rotateSlow { to { transform: translate(-50%,-50%) rotate(360deg); } }
+
+    .realm-badge {
+      font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: 0.18em;
+      color: var(--crimson2); text-transform: uppercase;
+      border: 1px solid rgba(192,57,43,0.4);
+      padding: 5px 18px; margin-bottom: 24px; display: inline-block;
+      animation: fadeUp 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Cinzel Decorative', cursive; font-weight: 900;
+      font-size: clamp(34px, 6vw, 60px); color: var(--gold);
+      text-shadow: 0 0 40px rgba(232,200,74,0.5), 0 0 80px rgba(232,200,74,0.2);
+      letter-spacing: 0.06em; margin-bottom: 10px;
+      animation: fadeUp 0.8s 0.1s ease both; line-height: 1.1;
+    }
+    .hero-subtitle {
+      font-family: 'Cinzel', serif; font-size: clamp(13px, 2vw, 16px);
+      color: var(--text); letter-spacing: 0.22em; text-transform: uppercase;
+      margin-bottom: 8px; animation: fadeUp 0.8s 0.2s ease both; opacity: 0.7;
+    }
+    .hero-professional {
+      font-size: 14px; color: var(--azure2); font-style: italic;
+      max-width: 520px; margin-bottom: 16px; animation: fadeUp 0.8s 0.25s ease both;
+    }
+    .hero-divider {
+      display: flex; align-items: center; justify-content: center; gap: 16px;
+      margin: 12px 0 20px; animation: fadeUp 0.8s 0.25s ease both;
+    }
+    .hero-divider::before, .hero-divider::after {
+      content: ''; width: 80px; height: 1px;
+    }
+    .hero-divider::before { background: linear-gradient(90deg, transparent, var(--gold)); }
+    .hero-divider::after { background: linear-gradient(90deg, var(--gold), transparent); }
+    .hero-divider span { color: var(--gold); font-size: 20px; }
+
+    .hero-desc {
+      font-size: 16px; font-style: italic; color: var(--muted);
+      max-width: 480px; line-height: 2; margin-bottom: 32px;
+      animation: fadeUp 0.8s 0.3s ease both;
+    }
+
+    .level-display {
+      display: inline-flex; align-items: center; gap: 28px;
+      border: 1px solid var(--border); padding: 16px 32px;
+      margin-bottom: 36px; position: relative;
+      animation: fadeUp 0.8s 0.38s ease both;
+      background: rgba(232,200,74,0.03);
+    }
+    .lv-item { text-align: center; }
+    .lv-num {
+      font-family: 'Cinzel Decorative', cursive; font-size: 24px;
+      color: var(--gold); text-shadow: 0 0 16px rgba(232,200,74,0.6); line-height: 1;
+    }
+    .lv-label {
+      font-family: 'Cinzel', serif; font-size: 9px; color: var(--muted);
+      letter-spacing: 0.12em; text-transform: uppercase; margin-top: 4px;
+    }
+    .lv-sep { width: 1px; height: 36px; background: var(--border); }
+
+    .hero-btns {
+      display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+      animation: fadeUp 0.8s 0.46s ease both;
+    }
+    .btn {
+      font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 0.1em;
+      text-transform: uppercase; text-decoration: none; padding: 11px 24px;
+      border: none; cursor: pointer; transition: all 0.3s;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn-gold {
+      background: linear-gradient(135deg, #b8980a, #e8c84a, #b8980a);
+      color: #1a0f00; font-weight: 700;
+      box-shadow: 0 0 20px rgba(232,200,74,0.3);
+    }
+    .btn-gold:hover { box-shadow: 0 0 32px rgba(232,200,74,0.6); transform: translateY(-2px); }
+    .btn-outline {
+      background: transparent; color: var(--gold);
+      border: 1px solid var(--border);
+    }
+    .btn-outline:hover { border-color: var(--gold); box-shadow: 0 0 16px rgba(232,200,74,0.2); background: rgba(232,200,74,0.05); }
+
+    .scroll-hint {
+      position: absolute; bottom: 28px; left: 50%;
+      transform: translateX(-50%); display: flex;
+      flex-direction: column; align-items: center; gap: 6px;
+      animation: fadeUp 1s 1s ease both;
+    }
+    .scroll-hint span {
+      font-family: 'Cinzel', serif; font-size: 9px;
+      letter-spacing: 0.2em; color: var(--muted);
+      text-transform: uppercase;
+    }
+    .scroll-arrow {
+      width: 1px; height: 32px;
+      background: linear-gradient(var(--gold), transparent);
+      animation: scrollPulse 2s infinite;
+    }
+    @keyframes scrollPulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+
+    /* SECTIONS */
+    section { padding: 80px 0; }
+    .sec-header { text-align: center; margin-bottom: 48px; }
+    .sec-title {
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: clamp(20px, 3vw, 28px); color: var(--gold);
+      text-shadow: 0 0 24px rgba(232,200,74,0.4);
+      letter-spacing: 0.1em; margin-bottom: 4px;
+    }
+    .sec-sub {
+      font-family: 'Cinzel', serif; font-size: 10px;
+      letter-spacing: 0.28em; color: var(--muted);
+      text-transform: uppercase;
+    }
+    .sec-ornament {
+      display: flex; align-items: center; justify-content: center; gap: 12px;
+      margin-top: 12px;
+    }
+    .sec-ornament::before { content: ''; width: 120px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold)); }
+    .sec-ornament::after  { content: ''; width: 120px; height: 1px; background: linear-gradient(90deg, var(--gold), transparent); }
+    .sec-ornament span { color: var(--gold); font-size: 14px; }
+
+    /* SKILLS */
+    .skill-realm { margin-bottom: 36px; }
+    .realm-title {
+      font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: 0.2em;
+      color: var(--crimson2); text-transform: uppercase;
+      margin-bottom: 16px; display: flex; align-items: center; gap: 12px;
+    }
+    .realm-title::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, rgba(192,57,43,0.4), transparent); }
+    .skill-orbs { display: flex; flex-wrap: wrap; gap: 10px; }
+    .orb {
+      padding: 8px 16px; border: 1px solid var(--border);
+      font-family: 'Cinzel', serif; font-size: 11px; color: var(--text);
+      background: var(--panel); transition: all 0.3s;
+      letter-spacing: 0.06em; cursor: default; text-transform: uppercase;
+    }
+    .orb::before { content: '◆'; font-size: 7px; color: var(--gold); margin-right: 7px; vertical-align: middle; opacity: 0.5; }
+    .orb:hover { border-color: var(--gold); background: rgba(232,200,74,0.06); color: var(--gold2); box-shadow: 0 0 16px rgba(232,200,74,0.15); transform: translateY(-2px); }
+    .orb.azure:hover { border-color: var(--azure); color: var(--azure2); box-shadow: 0 0 16px rgba(93,173,226,0.2); }
+    .orb.jade:hover  { border-color: var(--jade);  color: var(--jade);  box-shadow: 0 0 16px rgba(26,188,156,0.2); }
+
+    /* PROJECTS */
+    .projects-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+      background: var(--border); border: 1px solid var(--border);
+    }
+    .proj-card {
+      background: var(--panel); padding: 28px 26px 24px;
+      position: relative; overflow: hidden; transition: background 0.3s;
+    }
+    .proj-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      transform: scaleX(0); transition: transform 0.4s;
+    }
+    .proj-card:hover { background: #13102a; }
+    .proj-card:hover::before { transform: scaleX(1); }
+    .proj-card::after {
+      content: ''; position: absolute; top: 10px; right: 10px;
+      width: 18px; height: 18px;
+      border-top: 1px solid rgba(232,200,74,0.25);
+      border-right: 1px solid rgba(232,200,74,0.25);
+    }
+    .corner-bl {
+      position: absolute; bottom: 10px; left: 10px;
+      width: 18px; height: 18px;
+      border-bottom: 1px solid rgba(232,200,74,0.25);
+      border-left: 1px solid rgba(232,200,74,0.25);
+      pointer-events: none;
+    }
+    .proj-num {
+      font-family: 'Cinzel Decorative', cursive; font-size: 30px;
+      color: rgba(232,200,74,0.07); position: absolute;
+      top: 10px; right: 32px; line-height: 1;
+    }
+    .proj-badge {
+      font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--crimson2);
+      border: 1px solid rgba(192,57,43,0.35);
+      padding: 2px 8px; display: inline-block; margin-bottom: 12px;
+    }
+    .proj-name {
+      font-family: 'Cinzel', serif; font-weight: 700; font-size: 15px;
+      color: var(--text); margin-bottom: 6px; letter-spacing: 0.04em;
+    }
+    .proj-period { font-size: 13px; font-style: italic; color: var(--muted); margin-bottom: 10px; }
+    .proj-desc { font-size: 14px; color: #7a6e5a; line-height: 1.85; margin-bottom: 14px; }
+    .proj-runes { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 12px; }
+    .proj-rune {
+      font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 0.08em;
+      text-transform: uppercase; padding: 2px 8px;
+      border: 1px solid rgba(93,173,226,0.25);
+      color: rgba(93,173,226,0.7); transition: all 0.2s;
+    }
+    .proj-rune:hover { border-color: var(--azure); color: var(--azure2); }
+    
+    .proj-links { display: flex; gap: 8px; flex-wrap: wrap; }
+    .proj-link {
+      font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 0.08em;
+      text-transform: uppercase; padding: 4px 10px;
+      border: 1px solid var(--border); color: var(--gold);
+      text-decoration: none; transition: all 0.2s;
+    }
+    .proj-link:hover { border-color: var(--gold); background: rgba(232,200,74,0.08); }
+
+    /* EXPERIENCE */
+    .scroll-list { display: flex; flex-direction: column; }
+    .scroll-item {
+      border: 1px solid var(--border); border-bottom: none;
+      background: var(--panel); padding: 24px 28px;
+      display: grid; grid-template-columns: 1fr auto; gap: 12px;
+      position: relative; transition: background 0.3s; overflow: hidden;
+    }
+    .scroll-item:last-child { border-bottom: 1px solid var(--border); }
+    .scroll-item::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+      background: linear-gradient(var(--crimson), var(--gold));
+      transform: scaleY(0); transform-origin: top; transition: transform 0.4s;
+    }
+    .scroll-item:hover { background: #13102a; }
+    .scroll-item:hover::before { transform: scaleY(1); }
+    .scroll-role {
+      font-family: 'Cinzel', serif; font-weight: 700; font-size: 15px;
+      color: var(--text); letter-spacing: 0.04em; margin-bottom: 4px;
+    }
+    .scroll-org { font-size: 13px; color: var(--gold); margin-bottom: 10px; font-style: italic; }
+    .scroll-desc { font-size: 14px; color: #7a6e5a; line-height: 1.9; }
+    .scroll-date {
+      font-family: 'Cinzel', serif; font-size: 10px; color: var(--muted);
+      text-align: right; letter-spacing: 0.05em; white-space: nowrap; padding-top: 4px;
+    }
+
+    /* EDUCATION */
+    .edu-tablet {
+      border: 1px solid var(--border); background: var(--panel);
+      padding: 36px 40px; position: relative; overflow: hidden;
+    }
+    .edu-tablet::before {
+      content: 'THE ACADEMY'; position: absolute; top: 16px; right: 24px;
+      font-family: 'Cinzel Decorative', cursive; font-size: 12px;
+      color: rgba(232,200,74,0.04); letter-spacing: 0.3em;
+    }
+    .edu-inner { display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: start; }
+    .edu-school {
+      font-family: 'Cinzel', serif; font-weight: 700; font-size: 19px;
+      color: var(--text); letter-spacing: 0.04em; margin-bottom: 6px;
+    }
+    .edu-degree { font-size: 14px; color: var(--azure2); margin-bottom: 12px; font-style: italic; }
+    .edu-courses { font-size: 13px; color: var(--muted); line-height: 1.9; }
+    .edu-honors { font-size: 12px; color: rgba(232,200,74,0.7); margin-top: 10px; }
+    .gpa-orb {
+      text-align: center; border: 1px solid var(--border);
+      padding: 20px 28px; background: rgba(232,200,74,0.03);
+    }
+    .gpa-num {
+      font-family: 'Cinzel Decorative', cursive; font-size: 32px;
+      color: var(--gold); text-shadow: 0 0 24px rgba(232,200,74,0.6); line-height: 1;
+    }
+    .gpa-sub {
+      font-family: 'Cinzel', serif; font-size: 9px; color: var(--muted);
+      letter-spacing: 0.12em; text-transform: uppercase; margin-top: 6px;
+    }
+    .gpa-year {
+      font-family: 'Cinzel', serif; font-size: 10px; color: var(--crimson2);
+      letter-spacing: 0.08em; margin-top: 4px;
+    }
+
+    /* CONTACT */
+    .contact-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+      background: var(--border); border: 1px solid var(--border);
+    }
+    .contact-item {
+      background: var(--panel); padding: 24px 20px; text-align: center;
+      text-decoration: none; transition: background 0.3s;
+      position: relative; overflow: hidden;
+    }
+    .contact-item::before {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      transform: scaleX(0); transition: transform 0.3s;
+    }
+    .contact-item:hover { background: #13102a; }
+    .contact-item:hover::before { transform: scaleX(1); }
+    .contact-icon { font-size: 22px; margin-bottom: 8px; }
+    .contact-label {
+      font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 0.2em;
+      color: var(--muted); text-transform: uppercase; margin-bottom: 4px;
+    }
+    .contact-val { font-size: 13px; color: var(--text); transition: color 0.3s; }
+    .contact-item:hover .contact-val { color: var(--gold); }
+
+    footer {
+      border-top: 1px solid var(--border); padding: 32px 0;
+      text-align: center; position: relative; z-index: 2;
+    }
+    .footer-title {
+      font-family: 'Cinzel Decorative', cursive; font-size: 13px;
+      color: rgba(232,200,74,0.25); margin-bottom: 6px; letter-spacing: 0.2em;
+    }
+    footer p {
+      font-family: 'Cinzel', serif; font-size: 10px; color: var(--muted);
+      letter-spacing: 0.12em; text-transform: uppercase;
+    }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 768px) {
+      .projects-grid { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .edu-inner { grid-template-columns: 1fr; }
+      .level-display { gap: 16px; padding: 12px 20px; flex-wrap: wrap; }
+      .nav-links { 
+        display: none; position: absolute; top: 56px; left: 0; right: 0;
+        background: rgba(4,3,10,0.98); flex-direction: column;
+        padding: 20px; gap: 16px; border-bottom: 1px solid var(--border);
+      }
+      .nav-links.active { display: flex; }
+      .nav-toggle { display: block; }
+      .scroll-item { grid-template-columns: 1fr; }
+      .scroll-date { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="stars-canvas"></canvas>
+<div class="rune-bg" id="runeBg"></div>
+
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">Zishuo Wang</div>
+    <button class="nav-toggle" aria-label="Toggle navigation" onclick="toggleNav()">☰</button>
+    <div class="nav-links" id="navLinks">
+      <a href="#skills" onclick="toggleNav()">Skills</a>
+      <a href="#projects" onclick="toggleNav()">Projects</a>
+      <a href="https://github.com/yourusername" target="_blank" onclick="toggleNav()">GitHub</a>
+      <a href="#experience" onclick="toggleNav()">Experience</a>
+      <a href="#contact" onclick="toggleNav()">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-circle"></div>
+  <div class="realm-badge">✦ Georgia Tech · People & Intelligence (UX+AI) · Class of 2027 ✦</div>
+  <div class="hero-title">Zishuo Wang</div>
+  <div class="hero-subtitle">Software Engineer · Atlanta, GA</div>
+  <p class="hero-professional">
+    Seeking SDE Internship 2026 | Full-stack · Mobile · AI/ML
+  </p>
+  <div class="hero-divider"><span>⚔</span></div>
+  <p class="hero-desc">
+    Georgia Tech CS student building scalable applications<br>
+    and exploring multi-agent AI systems.<br>
+    Passionate about clean code, user experience, and impactful products.
+  </p>
+  <div class="level-display">
+    <div class="lv-item"><div class="lv-num">3.79</div><div class="lv-label">GPA</div></div>
+    <div class="lv-sep"></div>
+    <div class="lv-item"><div class="lv-num">4+</div><div class="lv-label">Projects</div></div>
+    <div class="lv-sep"></div>
+    <div class="lv-item"><div class="lv-num">10+</div><div class="lv-label">Technologies</div></div>
+    <div class="lv-sep"></div>
+    <div class="lv-item"><div class="lv-num">2</div><div class="lv-label">Internships</div></div>
+  </div>
+  <div class="hero-btns">
+    <a href="mailto:zwang3419@gatech.edu" class="btn btn-gold">⚡ Send Message</a>
+    <a href="/resume/Zishuo_Wang_Resume.pdf" download class="btn btn-outline">📄 Resume</a>
+    <a href="https://linkedin.com/in/zishuo-wang-gt" target="_blank" class="btn btn-outline">🔗 LinkedIn</a>
+    <a href="tel:5743493677" class="btn btn-outline">☎ (574) 349-3677</a>
+  </div>
+  <div class="scroll-hint">
+    <span>Scroll Down</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</div>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="container">
+    <div class="sec-header reveal">
+      <div class="sec-title">Skills & Mastery</div>
+      <div class="sec-sub">The Arsenal</div>
+      <div class="sec-ornament"><span>⚜</span></div>
+    </div>
+    <div class="skill-realm reveal">
+      <div class="realm-title">⚔ Blade Arts · Languages</div>
+      <div class="skill-orbs">
+        <div class="orb">Python</div><div class="orb">Java</div><div class="orb">Swift</div>
+        <div class="orb">TypeScript</div><div class="orb">Go</div><div class="orb">Dart</div><div class="orb">HTML/CSS</div>
+      </div>
+    </div>
+    <div class="skill-realm reveal">
+      <div class="realm-title">✨ Spell Craft · Frameworks & Frontend</div>
+      <div class="skill-orbs">
+        <div class="orb azure">React</div><div class="orb azure">React Native</div><div class="orb azure">Vue 3</div>
+        <div class="orb azure">Flutter</div><div class="orb azure">Three.js</div><div class="orb azure">d3.js</div>
+        <div class="orb azure">Node.js</div><div class="orb azure">Gin/GORM</div><div class="orb azure">Expo</div>
+      </div>
+    </div>
+    <div class="skill-realm reveal">
+      <div class="realm-title">🔮 Ancient Arts · AI & Infrastructure</div>
+      <div class="skill-orbs">
+        <div class="orb jade">PyTorch</div><div class="orb jade">OpenCV</div><div class="orb jade">Prompt Engineering</div>
+        <div class="orb jade">MySQL</div><div class="orb jade">Redis</div><div class="orb jade">MongoDB</div>
+        <div class="orb jade">Firebase</div><div class="orb jade">AWS</div><div class="orb jade">Google Cloud</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="container">
+    <div class="sec-header reveal">
+      <div class="sec-title">Featured Projects</div>
+      <div class="sec-sub">Conquests & Achievements</div>
+      <div class="sec-ornament"><span>⚜</span></div>
+    </div>
+    <div class="projects-grid reveal">
+
+      <div class="proj-card">
+        <div class="corner-bl"></div>
+        <div class="proj-num">I</div>
+        <div class="proj-badge">✦ Active Quest · In Progress</div>
+        <div class="proj-name">LeetCode Visualizer</div>
+        <div class="proj-period">January 2026 — Present</div>
+        <p class="proj-desc">Full-stack web app visualizing LeetCode activity in interactive 3D — maps problem IDs to a grid, encoding volume via bar height and difficulty via color. Deployed on AWS S3 + CloudFront with CI/CD pipeline.</p>
+        <div class="proj-runes">
+          <span class="proj-rune">React</span><span class="proj-rune">Three.js</span><span class="proj-rune">Node.js</span><span class="proj-rune">MongoDB</span><span class="proj-rune">AWS</span>
+        </div>
+        <div class="proj-links">
+          <a href="https://github.com/yourusername/leetcode-visualizer" class="proj-link" target="_blank">🔗 Code</a>
+          <a href="https://leetcode-viz.yourdomain.com" class="proj-link" target="_blank">🌐 Live Demo</a>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="corner-bl"></div>
+        <div class="proj-num">II</div>
+        <div class="proj-badge">✦ Completed · Victory</div>
+        <div class="proj-name">Currency Exchange Forum</div>
+        <div class="proj-period">December 2025 — January 2026</div>
+        <p class="proj-desc">Full-stack community platform with JWT auth, BCrypt hashing, role-based access control, and Redis caching. RESTful Go backend with reactive Vue 3 frontend. Handles 500+ concurrent users in load testing.</p>
+        <div class="proj-runes">
+          <span class="proj-rune">Go</span><span class="proj-rune">Gin</span><span class="proj-rune">Redis</span><span class="proj-rune">MySQL</span><span class="proj-rune">Vue 3</span><span class="proj-rune">TypeScript</span>
+        </div>
+        <div class="proj-links">
+          <a href="https://github.com/yourusername/currency-forum" class="proj-link" target="_blank">🔗 Code</a>
+          <a href="https://forum-demo.yourdomain.com" class="proj-link" target="_blank">🌐 Live Demo</a>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="corner-bl"></div>
+        <div class="proj-num">III</div>
+        <div class="proj-badge">✦ Completed · Victory</div>
+        <div class="proj-name">Simple Money</div>
+        <div class="proj-period">October — December 2025</div>
+        <p class="proj-desc">React Native expense tracker with Flash Calendar, liquid glass UI, and budget-planning flows. Refined through 10+ heuristic evaluations and Figma prototypes. 4.8/5 usability score in user testing.</p>
+        <div class="proj-runes">
+          <span class="proj-rune">React Native</span><span class="proj-rune">Expo</span><span class="proj-rune">SQLite</span><span class="proj-rune">Figma</span>
+        </div>
+        <div class="proj-links">
+          <a href="https://github.com/yourusername/simple-money" class="proj-link" target="_blank">🔗 Code</a>
+          <a href="https://testflight.apple.com/..." class="proj-link" target="_blank">📱 TestFlight</a>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="corner-bl"></div>
+        <div class="proj-num">IV</div>
+        <div class="proj-badge">✦ Completed · Victory</div>
+        <div class="proj-name">WanderSync</div>
+        <div class="proj-period">August — December 2024</div>
+        <p class="proj-desc">Collaborative Android travel app built with team of 5 in Agile sprints. Real-time Firebase sync, 20+ JUnit tests, SonarQube-verified 100% functionality coverage. Featured in GT CS showcase.</p>
+        <div class="proj-runes">
+          <span class="proj-rune">Java</span><span class="proj-rune">Android Studio</span><span class="proj-rune">Firebase</span><span class="proj-rune">JUnit</span>
+        </div>
+        <div class="proj-links">
+          <a href="https://github.com/yourusername/wandersync" class="proj-link" target="_blank">🔗 Code</a>
+          <a href="https://youtu.be/demo-video" class="proj-link" target="_blank">🎬 Demo Video</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="container">
+    <div class="sec-header reveal">
+      <div class="sec-title">Experience</div>
+      <div class="sec-sub">Trials & Expeditions</div>
+      <div class="sec-ornament"><span>⚜</span></div>
+    </div>
+    <div class="scroll-list reveal">
+      <div class="scroll-item">
+        <div>
+          <div class="scroll-role">iOS Engineering Intern</div>
+          <div class="scroll-org">⚔ Bloomly · Remote, US</div>
+          <div class="scroll-desc">Collaborated with product and UX designers to build a local social app in Boston. Implemented Universal Links, Smart App Banners, and Firebase Fallback Pages — boosted successful app opens from shared links by ~40%. Shipped 5 new front-end features within 2 months, reducing crash rate by 15% through systematic debugging.</div>
+        </div>
+        <div class="scroll-date">Dec 2025<br>—<br>Mar 2026</div>
+      </div>
+      <div class="scroll-item">
+        <div>
+          <div class="scroll-role">Research Assistant</div>
+          <div class="scroll-org">🔮 Georgia Institute of Technology</div>
+          <div class="scroll-desc">Investigated emergent behaviors of LLMs in multi-agent simulations via GPT APIs — analyzed deception, persuasion, and reasoning across 300+ simulations. Conducted prompt engineering to reduce hallucination by 23% and improve adherence to game rules. Findings contributed to lab publication.</div>
+        </div>
+        <div class="scroll-date">Jan 2025<br>—<br>Apr 2025</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="container">
+    <div class="sec-header reveal">
+      <div class="sec-title">Education</div>
+      <div class="sec-sub">The Sacred Academy</div>
+      <div class="sec-ornament"><span>⚜</span></div>
+    </div>
+    <div class="edu-tablet reveal">
+      <div class="edu-inner">
+        <div>
+          <div class="edu-school">Georgia Institute of Technology</div>
+          <div class="edu-degree">B.S. Computer Science · Threads: People & Intelligence (UX + AI)</div>
+          <div class="edu-courses">
+            Data Structures & Algorithms · OOP · Artificial Intelligence · Machine Learning · Computer Vision<br>
+            Computer Systems · UI Design · Info Visualization · Systems & Networks · Probability & Statistics · Linear Algebra
+          </div>
+          <div class="edu-honors">★ Faculty Honors (Fall 2024) · Dean's List (Fall 2024, Spring 2025, Fall 2026)</div>
+        </div>
+        <div class="gpa-orb">
+          <div class="gpa-num">3.79</div>
+          <div class="gpa-sub">GPA</div>
+          <div class="gpa-year">May 2027</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="sec-header reveal">
+      <div class="sec-title">Get In Touch</div>
+      <div class="sec-sub">Send a Summon</div>
+      <div class="sec-ornament"><span>⚜</span></div>
+    </div>
+    <div class="contact-grid reveal">
+      <a href="mailto:zwang3419@gatech.edu" class="contact-item">
+        <div class="contact-icon">📜</div>
+        <div class="contact-label">Email</div>
+        <div class="contact-val">zwang3419@gatech.edu</div>
+      </a>
+      <a href="https://linkedin.com/in/zishuo-wang-gt" target="_blank" class="contact-item">
+        <div class="contact-icon">⚔</div>
+        <div class="contact-label">LinkedIn</div>
+        <div class="contact-val">zishuo-wang-gt</div>
+      </a>
+      <a href="https://github.com/yourusername" target="_blank" class="contact-item">
+        <div class="contact-icon">🔮</div>
+        <div class="contact-label">GitHub</div>
+        <div class="contact-val">yourusername</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-title">✦ The Code Cultivator ✦</div>
+    <p>© 2026 Zishuo Wang · Atlanta, GA · Georgia Tech CS 2027</p>
+  </div>
+</footer>
+
+<script>
+// Mobile Nav Toggle
+function toggleNav() {
+  const nav = document.getElementById('navLinks');
+  if (window.innerWidth <= 768) {
+    nav.classList.toggle('active');
+  }
+}
+
+// STARFIELD
+const canvas = document.getElementById('stars-canvas');
+const ctx = canvas.getContext('2d');
+let stars = [];
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+
+function initStars() {
+  stars = [];
+  for (let i = 0; i < 220; i++) {
+    stars.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 1.3,
+      a: Math.random() * Math.PI * 2,
+      speed: Math.random() * 0.004 + 0.001,
+      gold: Math.random() > 0.82
+    });
+  }
+}
+
+function drawStars() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  stars.forEach(s => {
+    s.a += s.speed;
+    const opacity = (Math.sin(s.a) + 1) / 2 * 0.75;
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    ctx.fillStyle = s.gold ? `rgba(232,200,74,${opacity})` : `rgba(240,230,200,${opacity * 0.4})`;
+    ctx.fill();
+  });
+  requestAnimationFrame(drawStars);
+}
+
+resizeCanvas();
+initStars();
+drawStars();
+window.addEventListener('resize', () => { resizeCanvas(); initStars(); });
+
+// FLOATING RUNES
+const runeChars = ['᚛','ᚐ','ᚋ','ᚔ','ᚑ','ᚒ','ᚓ','ᚕ','ᚗ','ᚙ','ᚚ','☽','✦','⚔','⚜','✧','⚡','◈','⬡','⬟'];
+const bg = document.getElementById('runeBg');
+
+function spawnRune() {
+  const el = document.createElement('div');
+  el.className = 'rune';
+  el.textContent = runeChars[Math.floor(Math.random() * runeChars.length)];
+  el.style.left = Math.random() * 100 + 'vw';
+  const dur = 14 + Math.random() * 18;
+  el.style.animationDuration = dur + 's';
+  el.style.animationDelay = -Math.random() * dur + 's';
+  el.style.fontSize = (40 + Math.random() * 56) + 'px';
+  bg.appendChild(el);
+  setTimeout(() => el.remove(), (dur + 2) * 1000);
+}
+
+for (let i = 0; i < 20; i++) setTimeout(spawnRune, i * 500);
+setInterval(spawnRune, 2800);
+
+// SCROLL REVEAL
+const reveals = document.querySelectorAll('.reveal');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      obs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08 });
+
+reveals.forEach(r => obs.observe(r));
+
+// Close mobile nav when clicking outside
+document.addEventListener('click', (e) => {
+  const nav = document.getElementById('navLinks');
+  const toggle = document.querySelector('.nav-toggle');
+  if (window.innerWidth <= 768 && !nav.contains(e.target) && !toggle.contains(e.target)) {
+    nav.classList.remove('active');
+  }
+});
+</script>
+</body>
+</html>
