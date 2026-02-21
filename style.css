@@ -1,0 +1,34 @@
+/* School Logo Styling */
+.edu-logo {
+  height: 28px;
+  width: auto;
+  vertical-align: middle;
+  margin-right: 10px;
+  margin-bottom: 3px;
+  filter: brightness(0) invert(1); /* Makes logos white/golden */
+  opacity: 0.9;
+}
+
+.edu-school {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Optional: Add hover effect */
+.edu-logo:hover {
+  opacity: 1;
+  filter: brightness(0) invert(1) drop-shadow(0 0 8px rgba(232,200,74,0.6));
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .edu-logo {
+    height: 22px;
+  }
+  .edu-school {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
